@@ -1,8 +1,8 @@
-
-
 const SideBar = () => {
   return (
-    <div className="w-[400px] border-r-2 h-full min-h-screen">SideBar</div>
+    <div className="hidden sm:flex w-[400px] border-r-2 h-full min-h-screen">
+      SideBar
+    </div>
   );
 };
 
