@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "./dark-mode";
 import { Input } from "@/components/ui/input";
-import { ChevronRight } from "lucide-react";
 import { RiSearch2Line } from "react-icons/ri";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Faq } from "./faq";
@@ -43,9 +42,9 @@ const Header = () => {
           <div >
             <ModeToggle/>
           </div>
-          {/* <div className="pr-4">
+          <div className="pr-4">
             <ModeToggle />
-          </div> */}
+          </div>
         </div>
       </div>
     </div>
