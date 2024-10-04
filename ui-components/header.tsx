@@ -10,7 +10,7 @@ import UserIcon from "./user-icon";
 const Header = () => {
   return (
     <div className="h-full w-full flex justify-between">
-      <div className="text-4xl font-sans font-bold border-r-2 border-b-2 sm:w-[400px] flex justify-center py-4 px-4 sm:px-0">
+      <div className="text-4xl font-sans font-bold lg:border-r-2 border-b-2 sm:w-1/5 flex justify-center py-4 px-4 sm:px-0">
         Tasker
       </div>
       <div className="w-full border-b-2 flex justify-between">
@@ -20,7 +20,7 @@ const Header = () => {
               <RiSearch2Line className="h-4 w-4" />
             </Button>
             <Input
-              className="border-0 bg-muted focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0  sm:pr-40"
+              className="border-0 bg-muted focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0 sm:pr-40"
               type="email"
               placeholder="Search For Anything..."
             />

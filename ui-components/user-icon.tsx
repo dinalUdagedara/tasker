@@ -4,7 +4,7 @@ import { UserInformation } from "./user-information";
 const UserIcon = () => {
   return (
     <div className="flex flex-row gap-2 justify-center items-center">
-      <div className="flex flex-col items-end justify-center  pl-4">
+      <div className="hidden lg:flex flex-col items-end justify-center  pl-4">
         <p className="text-lg font-sans font-semibold">Dinal Bandara</p>
         <p className="text-sm font-sans font-thin text-right">
           Software Enginner
