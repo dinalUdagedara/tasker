@@ -1,15 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import SideBar from "./ui-components/sidebar";
+import { ThemeProvider } from "@/components/theme-provider";
+import Header from "./ui-components/header";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
   weight: "100 900",
 });
 
@@ -25,10 +23,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} antialiased justify-between`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <header>
+            <Header />
+          </header>
+          <div className="flex min-h-screen h-full">
+            <SideBar />
+            <main className="w-full h-full">{children}</main>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
