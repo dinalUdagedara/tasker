@@ -1,10 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { MdKeyboardArrowDown } from "react-icons/md";
-import { Notifications } from "./notifications";
 import { UserInformation } from "./user-information";
 
-const UserInfo = () => {
+const UserIcon = () => {
   return (
     <div className="flex flex-row gap-2 justify-center items-center">
       <div className="flex flex-col items-end justify-center  pl-4">
@@ -26,4 +23,4 @@ const UserInfo = () => {
   );
 };
 
-export default UserInfo;
+export default UserIcon;

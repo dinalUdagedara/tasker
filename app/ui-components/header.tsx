@@ -5,7 +5,7 @@ import { RiSearch2Line } from "react-icons/ri";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Faq } from "./faq";
 import { Notifications } from "./notifications";
-import UserInfo from "./user-icon";
+import UserIcon from "./user-icon";
 
 const Header = () => {
   return (
@@ -40,7 +40,7 @@ const Header = () => {
             <ModeToggle />
           </div>
           <div className="pr-10">
-            <UserInfo />
+            <UserIcon />
           </div>
         </div>
       </div>
