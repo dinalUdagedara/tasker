@@ -39,7 +39,7 @@ const Header = () => {
           <div>
             <ModeToggle />
           </div>
-          <div className="pr-10">
+          <div className="pr-2">
             <UserIcon />
           </div>
         </div>
