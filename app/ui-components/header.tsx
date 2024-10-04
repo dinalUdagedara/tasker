@@ -5,6 +5,7 @@ import { RiSearch2Line } from "react-icons/ri";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Faq } from "./faq";
 import { Notifications } from "./notifications";
+import UserInfo from "./user-icon";
 
 const Header = () => {
   return (
@@ -14,16 +15,12 @@ const Header = () => {
       </div>
       <div className="w-full border-b-2 flex justify-between">
         <div className="p-4">
-          <div className="flex border-2 p-1 bg-slate-100">
-            <Button
-              className="border-0 bg-slate-100"
-              variant="outline"
-              size="icon"
-            >
+          <div className="flex border-2 p-1 bg-muted rounded-md">
+            <Button className="border-0 bg-muted" variant="outline" size="icon">
               <RiSearch2Line className="h-4 w-4" />
             </Button>
             <Input
-              className="border-0 bg-slate-100 focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0  sm:pr-40"
+              className="border-0 bg-muted focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0  sm:pr-40"
               type="email"
               placeholder="Search For Anything..."
             />
@@ -39,11 +36,11 @@ const Header = () => {
           <div>
             <Notifications />
           </div>
-          <div >
-            <ModeToggle/>
-          </div>
-          <div className="pr-4">
+          <div>
             <ModeToggle />
+          </div>
+          <div className="pr-10">
+            <UserInfo />
           </div>
         </div>
       </div>
