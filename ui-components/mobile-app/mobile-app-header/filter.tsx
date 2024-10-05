@@ -6,12 +6,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { CalendarIcon } from "lucide-react";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 export function Filter() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline">Filter</Button>
+        <Button variant="outline">
+          <div className="flex gap-2 items-center">
+            <CalendarIcon className="h-4 w-4" /> 
+            Filter
+            <MdKeyboardArrowDown className="h-6 w-6" />
+          </div>
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80">
         <div className="grid gap-4">
