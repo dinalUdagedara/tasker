@@ -5,12 +5,12 @@ import { FC, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Container from "./container";
-import { DraggableItemType, initialContainers } from "@/lib/types"; // Adjust the path as necessary
+import { DraggableItemType, initialContainerss } from "@/lib/types"; // Adjust the path as necessary
 
 const MainComponent: FC = () => {
   const [containers, setContainers] = useState<{
     [key: string]: DraggableItemType[];
-  }>(initialContainers); // Use the imported initial containers
+  }>(initialContainerss); // Use the imported initial containers
 
   const handleDropItem = (itemId: number, targetContainerId: string) => {
     console.log(`Item ${itemId} dropped into ${targetContainerId}`);
@@ -48,7 +48,7 @@ const MainComponent: FC = () => {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="flex justify-center items-start mt-20">
+      <div className="flex justify-between items-start  w-full ">
         <Container
           id="container1"
           items={containers.container1}
