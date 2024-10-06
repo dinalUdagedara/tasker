@@ -23,18 +23,32 @@ const MobileAppHeader = () => {
             Invite
           </span>
 
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-          <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+          <div className="flex items-center">
+            <Avatar className="-ml-2 first:ml-0">
+              <AvatarImage src="https://i.pravatar.cc/150?img=1" />
+              <AvatarFallback>AB</AvatarFallback>
+            </Avatar>
+            <Avatar className="-ml-4">
+              <AvatarImage src="https://i.pravatar.cc/150?img=2" />
+              <AvatarFallback>CD</AvatarFallback>
+            </Avatar>
+            <Avatar className="-ml-4">
+              <AvatarImage src="https://i.pravatar.cc/150?img=3" />
+              <AvatarFallback>EF</AvatarFallback>
+            </Avatar>
+            <Avatar className="-ml-4">
+              <AvatarImage src="https://i.pravatar.cc/150?img=4" />
+              <AvatarFallback>GH</AvatarFallback>
+            </Avatar>
+            <Avatar className="-ml-4">
+              <AvatarImage src="https://i.pravatar.cc/150?img=5" />
+              <AvatarFallback>IJ</AvatarFallback>
+            </Avatar>
+            <Avatar className="-ml-4">
+              <AvatarImage src="https://i.pravatar.cc/150?img=6" />
+              <AvatarFallback>KL</AvatarFallback>
+            </Avatar>
+          </div>
         </div>
       </div>
 
