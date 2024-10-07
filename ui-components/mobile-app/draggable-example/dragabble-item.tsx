@@ -34,8 +34,10 @@ const DraggableItem: FC<DraggableItemType> = ({
   return (
     <div
       ref={dragRef}
-      className={`p-4 bg-gray-50 dark:bg-black/40 rounded-lg shadow-sm cursor-move mb-2 flex flex-col gap-2`}
+      className={`p-4 bg-gray-50 dark:bg-black/40 rounded-lg shadow-sm  mb-2 flex flex-col gap-2 cursor-pointer`}
       style={{ opacity: isDragging ? 0.5 : 1 }}
+      onMouseDown={(e) => e.currentTarget.classList.add("cursor-grabbing")}
+      onMouseUp={(e) => e.currentTarget.classList.remove("cursor-grabbing")}
     >
       <div className="flex justify-between items-center">
         <span
