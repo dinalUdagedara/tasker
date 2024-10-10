@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useDrop } from "react-dnd";
 import DraggableItem from "./dragabble-item";
 import { DraggableItemType } from "@/lib/types";
@@ -36,6 +36,7 @@ const Container: FC<ContainerProps> = ({
   const [showForm, setShowForm] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "ITEM",
@@ -68,6 +69,24 @@ const Container: FC<ContainerProps> = ({
     setPriority("Medium");
     setShowForm(false);
   };
+
+  // Detect outside clicks to save item
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        showForm &&
+        formRef.current &&
+        !formRef.current.contains(event.target as Node)
+      ) {
+        handleAddItem();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showForm, contentTitle, content, assignee, priority]);
 
   return (
     <div
@@ -122,7 +141,10 @@ const Container: FC<ContainerProps> = ({
       ))}
 
       {showForm && (
-        <div className="p-4 bg-gray-50 dark:bg-black/40 rounded-lg shadow-sm mb-2 flex flex-col gap-2 cursor-pointer">
+        <div
+          ref={formRef}
+          className="p-4 bg-gray-50 dark:bg-black/40 rounded-lg shadow-sm mb-2 flex flex-col gap-2 cursor-pointer"
+        >
           <Input
             id="contentTitle"
             value={contentTitle}
