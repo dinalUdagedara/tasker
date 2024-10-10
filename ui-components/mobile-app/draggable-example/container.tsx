@@ -37,6 +37,7 @@ const Container: FC<ContainerProps> = ({
 
   const ref = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
+  const selectRef = useRef<HTMLDivElement>(null);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "ITEM",
@@ -76,9 +77,20 @@ const Container: FC<ContainerProps> = ({
       if (
         showForm &&
         formRef.current &&
-        !formRef.current.contains(event.target as Node)
+        !formRef.current.contains(event.target as Node) &&
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node) &&
+        contentTitle
       ) {
         handleAddItem();
+      } else if (
+        showForm &&
+        formRef.current &&
+        !formRef.current.contains(event.target as Node) &&
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node)
+      ) {
+        setShowForm(false);
       }
     };
 
@@ -174,14 +186,17 @@ const Container: FC<ContainerProps> = ({
               <SelectValue placeholder="Select priority" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="High">High</SelectItem>
-              <SelectItem value="Medium">Medium</SelectItem>
-              <SelectItem value="Low">Low</SelectItem>
+              <div ref={selectRef}>
+                <SelectItem value="High">High</SelectItem>
+              </div>
+              <div ref={selectRef}>
+                <SelectItem value="Medium">Medium</SelectItem>
+              </div>
+              <div ref={selectRef}>
+                <SelectItem value="Low">Low</SelectItem>
+              </div>
             </SelectContent>
           </Select>
-          <Button onClick={handleAddItem} className="mt-2">
-            Add Item
-          </Button>
         </div>
       )}
     </div>
