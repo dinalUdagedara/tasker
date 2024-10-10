@@ -1,4 +1,4 @@
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { useDrop } from "react-dnd";
 import DraggableItem from "./dragabble-item";
 import { DraggableItemType } from "@/lib/types";
@@ -36,6 +36,8 @@ const Container: FC<ContainerProps> = ({
   const [showForm, setShowForm] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+  const selectRef = useRef<HTMLDivElement>(null);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "ITEM",
@@ -68,6 +70,35 @@ const Container: FC<ContainerProps> = ({
     setPriority("Medium");
     setShowForm(false);
   };
+
+  // Detect outside clicks to save item
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        showForm &&
+        formRef.current &&
+        !formRef.current.contains(event.target as Node) &&
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node) &&
+        contentTitle
+      ) {
+        handleAddItem();
+      } else if (
+        showForm &&
+        formRef.current &&
+        !formRef.current.contains(event.target as Node) &&
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node)
+      ) {
+        setShowForm(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showForm, contentTitle, content, assignee, priority]);
 
   return (
     <div
@@ -122,7 +153,10 @@ const Container: FC<ContainerProps> = ({
       ))}
 
       {showForm && (
-        <div className="p-4 bg-gray-50 dark:bg-black/40 rounded-lg shadow-sm mb-2 flex flex-col gap-2 cursor-pointer">
+        <div
+          ref={formRef}
+          className="p-4 bg-gray-50 dark:bg-black/40 rounded-lg shadow-sm mb-2 flex flex-col gap-2 cursor-pointer"
+        >
           <Input
             id="contentTitle"
             value={contentTitle}
@@ -152,14 +186,17 @@ const Container: FC<ContainerProps> = ({
               <SelectValue placeholder="Select priority" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="High">High</SelectItem>
-              <SelectItem value="Medium">Medium</SelectItem>
-              <SelectItem value="Low">Low</SelectItem>
+              <div ref={selectRef}>
+                <SelectItem value="High">High</SelectItem>
+              </div>
+              <div ref={selectRef}>
+                <SelectItem value="Medium">Medium</SelectItem>
+              </div>
+              <div ref={selectRef}>
+                <SelectItem value="Low">Low</SelectItem>
+              </div>
             </SelectContent>
           </Select>
-          <Button onClick={handleAddItem} className="mt-2">
-            Add Item
-          </Button>
         </div>
       )}
     </div>
