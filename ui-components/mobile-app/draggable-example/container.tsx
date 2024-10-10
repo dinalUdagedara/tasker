@@ -4,19 +4,38 @@ import DraggableItem from "./dragabble-item";
 import { DraggableItemType } from "@/lib/types";
 import { FaSquarePlus } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
-import AddItemForm from "./add-item"; // Import the new form component
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface ContainerProps {
   id: string;
   items: DraggableItemType[];
   onDropItem: (itemId: number, targetContainerId: string) => void;
+  onAddItem: (item: DraggableItemType, targetContainerId: string) => void;
 }
 
-const Container: FC<ContainerProps> = ({ id, items, onDropItem }) => {
-  const ref = useRef<HTMLDivElement>(null);
+const Container: FC<ContainerProps> = ({
+  id,
+  items,
+  onDropItem,
+  onAddItem,
+}) => {
+  const [contentTitle, setContentTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+  const [assignee, setAssignee] = useState("");
+  const [priority, setPriority] = useState("Medium");
   const [containerItems, setContainerItems] =
     useState<DraggableItemType[]>(items);
   const [showForm, setShowForm] = useState(false);
+
+  const ref = useRef<HTMLDivElement>(null);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "ITEM",
@@ -27,10 +46,27 @@ const Container: FC<ContainerProps> = ({ id, items, onDropItem }) => {
   }));
 
   drop(ref);
+  const handleAddItem = () => {
+    const newItem: DraggableItemType = {
+      id: Date.now(),
+      title,
+      priority,
+      contentTitle,
+      content,
+      comments: [],
+      files: [],
+      assignees: [assignee],
+    };
 
-  const handleAddItem = (newItem: DraggableItemType) => {
-    setContainerItems((prevItems) => [...prevItems, newItem]);
-    setShowForm(false); // Hide the form after adding an item
+    // Use onAddItem prop to add the new item to the container
+    onAddItem(newItem, id);
+
+    // Reset form fields after adding the item
+    setContentTitle("");
+    setContent("");
+    setAssignee("");
+    setPriority("Medium");
+    setShowForm(false);
   };
 
   return (
@@ -41,17 +77,9 @@ const Container: FC<ContainerProps> = ({ id, items, onDropItem }) => {
           isOver
             ? "bg-gray-200 dark:bg-muted/25"
             : "bg-gray-100 dark:bg-muted/70"
-        }`}
+        }
+      `}
     >
-      {showForm && (
-        <div>
-          <AddItemForm
-            onAddItem={handleAddItem}
-            onClose={() => setShowForm(false)}
-            showForm={showForm}
-          />
-        </div>
-      )}
       <div className="flex items-center min-h-[24px] justify-between">
         <div className="flex gap-2 items-center justify-center">
           <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
@@ -92,6 +120,48 @@ const Container: FC<ContainerProps> = ({ id, items, onDropItem }) => {
           title={item.title}
         />
       ))}
+
+      {showForm && (
+        <div className="p-4 bg-gray-50 dark:bg-black/40 rounded-lg shadow-sm mb-2 flex flex-col gap-2 cursor-pointer">
+          <Input
+            id="contentTitle"
+            value={contentTitle}
+            onChange={(e) => setContentTitle(e.target.value)}
+            placeholder="Task"
+            required
+          />
+          <Input
+            id="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="Add Content"
+            required
+          />
+          <Input
+            id="assignee"
+            value={assignee}
+            onChange={(e) => setAssignee(e.target.value)}
+            placeholder="Add Assignee"
+            required
+          />
+          <Select
+            onValueChange={(value) => setPriority(value)}
+            value={priority}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select priority" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="High">High</SelectItem>
+              <SelectItem value="Medium">Medium</SelectItem>
+              <SelectItem value="Low">Low</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button onClick={handleAddItem} className="mt-2">
+            Add Item
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

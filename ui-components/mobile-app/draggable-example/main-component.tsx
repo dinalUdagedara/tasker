@@ -1,6 +1,4 @@
-// MainComponent.tsx
 "use client";
-
 import { FC, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -46,6 +44,25 @@ const MainComponent: FC = () => {
     }
   };
 
+  const handleAddNewItem = (
+    item: DraggableItemType,
+    targetContainerId: string
+  ) => {
+    // Create a deep copy of the containers to avoid mutation
+    const updatedContainers = { ...containers };
+
+    // Check if the target container exists, if not, initialize it
+    if (!updatedContainers[targetContainerId]) {
+      updatedContainers[targetContainerId] = [];
+    }
+
+    // Add the new item to the target container
+    updatedContainers[targetContainerId].push(item);
+
+    // Update the state with the new containers
+    setContainers(updatedContainers);
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="flex justify-between items-start  w-full ">
@@ -53,16 +70,19 @@ const MainComponent: FC = () => {
           id="container1"
           items={containers.container1}
           onDropItem={handleDropItem}
+          onAddItem = {handleAddNewItem}
         />
         <Container
           id="container2"
           items={containers.container2}
           onDropItem={handleDropItem}
+          onAddItem = {handleAddNewItem}
         />
         <Container
           id="container3"
           items={containers.container3}
           onDropItem={handleDropItem}
+          onAddItem = {handleAddNewItem}
         />
       </div>
     </DndProvider>
