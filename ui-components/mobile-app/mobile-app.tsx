@@ -13,7 +13,7 @@ import SelctedItem from "./drawer/selected-item";
 const value = 0;
 
 const MobileApp = () => {
-  const [defaultValue, setDefaultValue] = useState<number>(0);
+  const [defaultValue, setDefaultValue] = useState<number>(10);
   const isItemSelected = useStore((state) => state.itemSelected);
 
   useEffect(() => {
