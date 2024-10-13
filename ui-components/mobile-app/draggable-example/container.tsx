@@ -5,6 +5,9 @@ import { DraggableItemType } from "@/lib/types";
 import { FaSquarePlus } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { LuCheckSquare } from "react-icons/lu";
+import { FaUsers } from "react-icons/fa6";
+import { FaFileLines } from "react-icons/fa6";
 import {
   Select,
   SelectContent,
@@ -157,28 +160,65 @@ const Container: FC<ContainerProps> = ({
           ref={formRef}
           className="p-4 bg-gray-50 dark:bg-black/40 rounded-lg shadow-sm mb-2 flex flex-col gap-2 cursor-pointer"
         >
-          {/* This is a comment  */}
+          {/* This is a comment  
           <Input
             id="contentTitle"
             value={contentTitle}
             onChange={(e) => setContentTitle(e.target.value)}
             placeholder="Task"
             required
+            className="border-none focus-visible:outline-none focus:ring-0"
           />
+*/}
+          <div className="relative">
+            <FaFileLines className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+            <Input
+              id="contentTitle"
+              value={contentTitle}
+              onChange={(e) => setContentTitle(e.target.value)}
+              placeholder="Task"
+              required
+              className="pl-10 pr-3 border-none focus:border-none focus:ring-0 focus:outline-none"
+            />
+          </div>
+
           <Input
             id="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Add Content"
             required
+            className="border-none outline-none focus:outline-none focus:ring-0 focus:border-none hover:border-none"
           />
-          <Input
-            id="assignee"
-            value={assignee}
-            onChange={(e) => setAssignee(e.target.value)}
-            placeholder="Add Assignee"
-            required
-          />
+
+          {/* <div className="assigneiconclz">
+            <FaUsers className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
+            <input
+              id="assignee"
+              value={assignee}
+              onChange={(e) => setAssignee(e.target.value)}
+              placeholder="Add Assignee"
+              required
+              className="pl-10 border-none focus:border-none focus:ring-0 focus:outline-none"
+            />
+          </div> */}
+
+          <div className="relative">
+            <input
+              id="assignee"
+              value={assignee}
+              onChange={(e) => setAssignee(e.target.value)}
+              placeholder=""
+              required
+              className="pl-10 pr-3 border-none focus:border-none focus:ring-0 focus:outline-none"
+            />
+            {assignee === "" && (
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 flex items-center">
+                <FaUsers className="text-gray-500" />
+                <span className="ml-1 text-gray-500">Add Assignee</span>
+              </div>
+            )}
+          </div>
           <Select
             onValueChange={(value) => setPriority(value)}
             value={priority}
