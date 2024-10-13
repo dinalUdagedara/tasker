@@ -15,12 +15,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useStore from "@/store/state";
 
 interface ContainerProps {
   id: string;
   items: DraggableItemType[];
   onDropItem: (itemId: number, targetContainerId: string) => void;
   onAddItem: (item: DraggableItemType, targetContainerId: string) => void;
+  onSelectItem: (item: DraggableItemType) => void;
 }
 
 const Container: FC<ContainerProps> = ({
@@ -28,6 +30,7 @@ const Container: FC<ContainerProps> = ({
   items,
   onDropItem,
   onAddItem,
+  onSelectItem,
 }) => {
   const [contentTitle, setContentTitle] = useState("");
   const [content, setContent] = useState("");
@@ -41,6 +44,7 @@ const Container: FC<ContainerProps> = ({
   const ref = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
+  const setItemSelected = useStore((state) => state.setItemSelected);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "ITEM",
@@ -74,9 +78,14 @@ const Container: FC<ContainerProps> = ({
     setShowForm(false);
   };
 
+  const selectItem = (item: DraggableItemType) => {
+    onSelectItem(item);
+  };
+
   // Detect outside clicks to save item
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // setItemSelected(false);
       if (
         showForm &&
         formRef.current &&
@@ -116,7 +125,11 @@ const Container: FC<ContainerProps> = ({
     >
       <div className="flex items-center min-h-[24px] justify-between">
         <div className="flex gap-2 items-center justify-center">
-          <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
+          <span
+            className={`  ${
+              containerItems[0].title === "To Do" ? "" : "bg"
+            } w-3 h-3  rounded-full mr-2`}
+          ></span>
           {containerItems[0] ? (
             <span className="text-lg font-semibold font-sans">
               {containerItems[0].title}
@@ -142,17 +155,23 @@ const Container: FC<ContainerProps> = ({
       </div>
 
       {containerItems.map((item) => (
-        <DraggableItem
-          key={item.id}
-          id={item.id}
-          content={item.content}
-          assignees={item.assignees}
-          comments={item.comments}
-          contentTitle={item.contentTitle}
-          files={item.files}
-          priority={item.priority}
-          title={item.title}
-        />
+        <div
+          onClick={() => {
+            selectItem(item);
+          }}
+        >
+          <DraggableItem
+            key={item.id}
+            id={item.id}
+            content={item.content}
+            assignees={item.assignees}
+            comments={item.comments}
+            contentTitle={item.contentTitle}
+            files={item.files}
+            priority={item.priority}
+            title={item.title}
+          />
+        </div>
       ))}
 
       {showForm && (

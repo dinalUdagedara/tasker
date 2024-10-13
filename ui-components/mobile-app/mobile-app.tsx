@@ -1,3 +1,5 @@
+"use client";
+import useStore from "@/store/state";
 import MobileAppContent from "./mobile-app-content/mobile-app-content";
 import MobileAppHeader from "./mobile-app-header/mobile-app-header";
 import {
@@ -5,10 +7,22 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { useEffect, useState } from "react";
+import SelctedItem from "./drawer/selected-item";
 
-const value = 0
+const value = 0;
 
 const MobileApp = () => {
+  const [defaultValue, setDefaultValue] = useState<number>(0);
+  const isItemSelected = useStore((state) => state.itemSelected);
+
+  useEffect(() => {
+    console.log("selected", isItemSelected);
+    if (isItemSelected) {
+      setDefaultValue(10);
+    }
+  }, [isItemSelected]);
+
   return (
     <div className="flex h-full flex-col">
       <ResizablePanelGroup
@@ -28,14 +42,16 @@ const MobileApp = () => {
           </div>
         </ResizablePanel>
         {/* Handler */}
-        {/* <ResizableHandle withHandle /> */}
 
+        {isItemSelected && <ResizableHandle withHandle />}
 
-        <ResizablePanel defaultSize={value}>
-          <div className="flex h-full items-center justify-center p-6">
-            <span className="font-semibold">Content</span>
-          </div>
-        </ResizablePanel>
+        {isItemSelected && (
+          <ResizablePanel defaultSize={defaultValue}>
+            <div className="flex h-full items-center justify-center p-6">
+              <SelctedItem />
+            </div>
+          </ResizablePanel>
+        )}
       </ResizablePanelGroup>
     </div>
   );

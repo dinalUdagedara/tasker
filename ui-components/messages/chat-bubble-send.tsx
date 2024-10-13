@@ -9,7 +9,7 @@ const ChatBubbleSend: React.FC<ChatBubbleSendProps> = ({msg,time}) => {
     return (
       <div className="">
       <div className="grid mb-2 ">
-        <div className="px-3.5 py-2 bg-indigo-100 rounded-tl-none rounded-bl-3xl rounded-tl-3xl rounded-tr-3xl justify-start items-center gap-3 inline-flex ml-auto  max-w-[75%]">
+        <div className="px-3.5 py-2 bg-indigo-100  rounded-bl-3xl rounded-tl-3xl rounded-tr-3xl justify-start items-center gap-3 inline-flex ml-auto  max-w-[75%]">
           <h2 className="text-black text-base font-normal leading-snug p-2">{msg}</h2>
         </div>
         <div className="justify-start items-center inline-flex ml-auto">
