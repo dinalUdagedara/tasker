@@ -4,11 +4,15 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Container from "./container";
 import { DraggableItemType, initialContainerss } from "@/lib/types"; // Adjust the path as necessary
+import useStore from "@/store/state";
 
 const MainComponent: FC = () => {
   const [containers, setContainers] = useState<{
     [key: string]: DraggableItemType[];
   }>(initialContainerss); // Use the imported initial containers
+
+  const setItemSelected = useStore((state) => state.setItemSelected);
+  const setShowSideBar = useStore((state) => state.setShowSideBar);
 
   const handleDropItem = (itemId: number, targetContainerId: string) => {
     console.log(`Item ${itemId} dropped into ${targetContainerId}`);
@@ -44,6 +48,13 @@ const MainComponent: FC = () => {
     }
   };
 
+  const handleSelectItem = (item: DraggableItemType) => {
+    const containerID = item.title;
+    setItemSelected(true);
+    setShowSideBar(true);
+    console.log("selected item: ", item);
+  };
+
   const handleAddNewItem = (
     item: DraggableItemType,
     targetContainerId: string
@@ -70,19 +81,22 @@ const MainComponent: FC = () => {
           id="container1"
           items={containers.container1}
           onDropItem={handleDropItem}
-          onAddItem = {handleAddNewItem}
+          onAddItem={handleAddNewItem}
+          onSelectItem={handleSelectItem}
         />
         <Container
           id="container2"
           items={containers.container2}
           onDropItem={handleDropItem}
-          onAddItem = {handleAddNewItem}
+          onAddItem={handleAddNewItem}
+          onSelectItem={handleSelectItem}
         />
         <Container
           id="container3"
           items={containers.container3}
           onDropItem={handleDropItem}
-          onAddItem = {handleAddNewItem}
+          onAddItem={handleAddNewItem}
+          onSelectItem={handleSelectItem}
         />
       </div>
     </DndProvider>
