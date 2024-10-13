@@ -13,6 +13,7 @@ const MainComponent: FC = () => {
 
   const setItemSelected = useStore((state) => state.setItemSelected);
   const setShowSideBar = useStore((state) => state.setShowSideBar);
+  const setSelectedItem = useStore((state) => state.setSelectedItem);
 
   const handleDropItem = (itemId: number, targetContainerId: string) => {
     console.log(`Item ${itemId} dropped into ${targetContainerId}`);
@@ -52,6 +53,7 @@ const MainComponent: FC = () => {
     const containerID = item.title;
     setItemSelected(true);
     setShowSideBar(true);
+    setSelectedItem(item);
     console.log("selected item: ", item);
   };
 

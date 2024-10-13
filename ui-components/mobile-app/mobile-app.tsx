@@ -8,6 +8,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { useEffect, useState } from "react";
+import SelctedItem from "./drawer/selected-item";
 
 const value = 0;
 
@@ -41,15 +42,13 @@ const MobileApp = () => {
           </div>
         </ResizablePanel>
         {/* Handler */}
-        <ResizableHandle withHandle />
+
+        {isItemSelected && <ResizableHandle withHandle />}
 
         {isItemSelected && (
           <ResizablePanel defaultSize={defaultValue}>
             <div className="flex h-full items-center justify-center p-6">
-              <span className="font-semibold">
-                Content
-                {isItemSelected} {defaultValue}
-              </span>
+              <SelctedItem />
             </div>
           </ResizablePanel>
         )}

@@ -85,7 +85,7 @@ const Container: FC<ContainerProps> = ({
   // Detect outside clicks to save item
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      setItemSelected(false);
+      // setItemSelected(false);
       if (
         showForm &&
         formRef.current &&
