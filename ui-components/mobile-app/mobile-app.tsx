@@ -6,7 +6,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 
-const value = 10
+const value = 0
 
 const MobileApp = () => {
   return (
