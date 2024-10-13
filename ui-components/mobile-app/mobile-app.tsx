@@ -6,6 +6,8 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 
+const value = 10
+
 const MobileApp = () => {
   return (
     <div className="flex h-full flex-col">
@@ -26,9 +28,10 @@ const MobileApp = () => {
           </div>
         </ResizablePanel>
         {/* Handler */}
-        <ResizableHandle withHandle />
+        {/* <ResizableHandle withHandle /> */}
 
-        <ResizablePanel defaultSize={0}>
+
+        <ResizablePanel defaultSize={value}>
           <div className="flex h-full items-center justify-center p-6">
             <span className="font-semibold">Content</span>
           </div>
