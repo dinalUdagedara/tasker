@@ -1,3 +1,3 @@
-{"text": "Buy groceries", "isCompleted": true}
-{"text": "Go for a swim", "isCompleted": true}
-{"text": "Integrate Convex", "isCompleted": true}
+{"assignees": ["John Doe", "Jane Smith"], "comments": "The issue is only happening on production, but it works fine locally.", "content": "Resolve the issue where users cannot log in after resetting their password.", "files": [{"taskID": "task1", "file": "error_logs.txt"}, {"taskID": "task1", "file": "screenshot_bug.png"}], "priority": "high", "status": "in-progress", "title": "Fix bug in authentication system"}
+{"assignees": ["Alice Johnson", "Bob Lee"], "comments": "Design reviewed and approved by UX team.", "content": "Create a modern dashboard layout for users, focusing on usability and design.", "files": [{"taskID": "task2", "file": "dashboard_design.fig"}], "priority": "medium", "status": "completed", "title": "Design new user dashboard"}
+{"assignees": ["Chris Evans"], "comments": "Waiting for the final list of endpoints from the backend team.", "content": "Complete the technical documentation for the public-facing API endpoints.", "files": [], "priority": "low", "status": "pending", "title": "Write documentation for API"}

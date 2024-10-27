@@ -3,8 +3,11 @@ import { FC, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Container from "./container";
-import { DraggableItemType, initialContainerss } from "@/lib/types"; // Adjust the path as necessary
+import { DraggableItemType, initialContainerss } from "@/lib/types";
 import useStore from "@/store/state";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 
 const MainComponent: FC = () => {
   const [containers, setContainers] = useState<{
@@ -14,6 +17,16 @@ const MainComponent: FC = () => {
   const setItemSelected = useStore((state) => state.setItemSelected);
   const setShowSideBar = useStore((state) => state.setShowSideBar);
   const setSelectedItem = useStore((state) => state.setSelectedItem);
+
+  //jh733jcdtpa81eqk6hx3m6rht173et4k - sample UserID
+  const userIDSample = "jh733jcdtpa81eqk6hx3m6rht173et4k";
+  const userID: Id<"users"> = userIDSample as Id<"users">;
+
+  const allTheTasks = useQuery(api.tasks.getTasksByID, {
+    userId: userID,
+  });
+
+  console.log("Allthe tasks", allTheTasks);
 
   const handleDropItem = (itemId: number, targetContainerId: string) => {
     console.log(`Item ${itemId} dropped into ${targetContainerId}`);

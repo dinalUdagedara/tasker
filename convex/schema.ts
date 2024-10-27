@@ -3,7 +3,30 @@ import { v } from "convex/values";
 
 export default defineSchema({
   tasks: defineTable({
-    isCompleted: v.boolean(),
-    text: v.string(),
+    title: v.string(),
+    content: v.string(),
+    status: v.string(),
+    priority: v.string(),
+    assignees: v.array(v.string()), // List of user IDs
+    comments: v.array(
+      v.object({
+        author: v.string(), // userID of the comment author
+        content: v.string(),
+        timestamp: v.string(),
+      })
+    ),
+    files: v.array(
+      v.object({
+        // taskID: v.id("tasks"),
+        taskID: v.string(),
+        file: v.string(),
+      })
+    ),
+    creator: v.id("users"), // User ID of the creator
+  }),
+  users: defineTable({
+    name: v.string(),
+    email: v.string(),
+    role: v.optional(v.string()), // e.g., "admin", "user"
   }),
 });
