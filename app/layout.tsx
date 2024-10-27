@@ -4,6 +4,7 @@ import "./globals.css";
 import SideBar from "../ui-components/sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
 import Header from "../ui-components/header";
+import { ConvexClientProvider } from "./ConvexClientProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,7 +36,10 @@ export default function RootLayout({
           </header>
           <div className="flex min-h-screen h-full">
             <SideBar />
-            <main className="w-full h-full">{children}</main>
+            <main className="w-full h-full">
+              {" "}
+              <ConvexClientProvider>{children}</ConvexClientProvider>
+            </main>
           </div>
         </ThemeProvider>
       </body>
