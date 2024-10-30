@@ -25,10 +25,7 @@ const MobileApp = () => {
 
   return (
     <div className="flex h-full flex-col">
-      <ResizablePanelGroup
-        direction="horizontal"
-        className="min-h-screen h-full  w-full "
-      >
+      <ResizablePanelGroup direction="horizontal" className=" h-full  w-full ">
         <ResizablePanel defaultSize={25}>
           <div className="flex h-full items-center justify-center">
             <span className="font-semibold">

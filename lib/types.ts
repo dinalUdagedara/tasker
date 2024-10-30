@@ -1,3 +1,7 @@
+import { Id } from "@/convex/_generated/dataModel";
+
+export type FileType = { taskID: string; file: string };
+
 export type DraggableItemType = {
   id: number;
   content: string;
@@ -5,18 +9,32 @@ export type DraggableItemType = {
   priority: string;
   contentTitle: string;
   comments: string[];
-  files: string[];
+  files: FileType[];
   assignees: string[];
 };
 
-// Define initial container items
-export const initialContainers = {
-  container1: [{ id: 1, content: "Item 1" }],
-  container2: [{ id: 3, content: "Item 3" }],
-  container3: [{ id: 4, content: "Item 4" }],
+export const userIDSample = "jh733jcdtpa81eqk6hx3m6rht173et4k";
+
+// Assuming you have defined your task model somewhere
+export type DraggableItemTypeNew = {
+  _id: Id<"tasks">;
+  _creationTime: number;
+  title: string;
+  content: string;
+  status: string; // container1, container2, or container3
+  priority: string;
+  assignees: string[];
+  comments: {
+    content: string;
+    author: string;
+    timestamp: string;
+  }[];
+  files: FileType[]; // Specify a more accurate type if possible
+  creator: Id<"users">;
 };
+
 export const initialContainerss = {
-  container1: [
+  toDo_Container: [
     {
       id: 1,
       title: "To Do",
@@ -38,7 +56,7 @@ export const initialContainerss = {
       assignees: ["", ""],
     },
   ],
-  container2: [
+  onProgress_Container: [
     {
       id: 3,
       title: "On Progress",
@@ -60,7 +78,7 @@ export const initialContainerss = {
       assignees: ["", ""],
     },
   ],
-  container3: [
+  done_Container: [
     {
       id: 5,
       title: "Done",

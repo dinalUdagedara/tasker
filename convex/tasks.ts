@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 
 export const get = query({
   args: {},
@@ -17,5 +17,27 @@ export const getTasksByID = query({
       .query("tasks")
       .filter((q) => q.eq(q.field("creator"), args.userId))
       .collect();
+  },
+});
+
+// Updating the state of a task using the drag and dropping
+
+export const droppingTasks = mutation({
+  args: {
+    taskID: v.id("tasks"),
+    targetStatus: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const task = await ctx.db
+      .query("tasks")
+      .filter((q) => q.eq(q.field("_id"), args.taskID))
+      .first();
+
+    if (!task) {
+      throw new Error("Task not found");
+    }
+    await ctx.db.patch(task._id, {
+      status: args.targetStatus,
+    });
   },
 });

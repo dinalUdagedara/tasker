@@ -11,7 +11,7 @@ const SelctedItem = () => {
   return (
     <div className="flex flex-col h-full w-full gap-4">
       <span className="font-sans text-3xl font-bold">
-        {selectedItem?.contentTitle}
+        {selectedItem?.title}
       </span>
       <div className="flex justify- gap-8 mt-10">
         <span className="font-sans ">Summary:</span>
