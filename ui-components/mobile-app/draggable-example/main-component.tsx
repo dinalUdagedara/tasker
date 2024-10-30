@@ -9,27 +9,27 @@ import {
   initialContainerss,
 } from "@/lib/types";
 import useStore from "@/store/state";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 
 const MainComponent: FC = () => {
   const [containers, setContainers] = useState<{
     [key: string]: DraggableItemType[];
-  }>(initialContainerss); // Use the imported initial containers
+  }>(); // Use the imported initial containers
 
   const [containersNEW, setContainersNEW] = useState<{
     [key: string]: DraggableItemTypeNew[];
   }>({
-    toDo_Container: [],
-    onProgress_Container: [],
-    done_Container: [],
+    to_do: [],
+    on_progress: [],
+    done: [],
   });
 
   const setItemSelected = useStore((state) => state.setItemSelected);
   const setShowSideBar = useStore((state) => state.setShowSideBar);
   const setSelectedItem = useStore((state) => state.setSelectedItem);
-
+  const dropTask = useMutation(api.tasks.droppingTasks);
   //jh733jcdtpa81eqk6hx3m6rht173et4k - sample UserID
   const userIDSample = "jh733jcdtpa81eqk6hx3m6rht173et4k";
   const userID: Id<"users"> = userIDSample as Id<"users">;
@@ -43,13 +43,13 @@ const MainComponent: FC = () => {
   useEffect(() => {
     if (allTheTasks) {
       const updatedContainers: {
-        toDo_Container: DraggableItemTypeNew[];
-        onProgress_Container: DraggableItemTypeNew[];
-        done_Container: DraggableItemTypeNew[];
+        to_do: DraggableItemTypeNew[];
+        on_progress: DraggableItemTypeNew[];
+        done: DraggableItemTypeNew[];
       } = {
-        toDo_Container: [],
-        onProgress_Container: [],
-        done_Container: [],
+        to_do: [],
+        on_progress: [],
+        done: [],
       };
 
       allTheTasks.forEach((task) => {
@@ -67,12 +67,12 @@ const MainComponent: FC = () => {
         };
 
         // Distribute tasks into containers based on their status
-        if (task.status === "to-do") {
-          updatedContainers.toDo_Container.push(draggableTask);
+        if (task.status === "to_do") {
+          updatedContainers.to_do.push(draggableTask);
         } else if (task.status === "done") {
-          updatedContainers.onProgress_Container.push(draggableTask);
-        } else if (task.status === "in-progress") {
-          updatedContainers.done_Container.push(draggableTask);
+          updatedContainers.done.push(draggableTask);
+        } else if (task.status === "on_progress") {
+          updatedContainers.on_progress.push(draggableTask);
         }
       });
 
@@ -85,38 +85,10 @@ const MainComponent: FC = () => {
     console.log("containersNew", containersNEW);
   }, [containersNEW]);
 
-  const handleDropItem = (itemId: number, targetContainerId: string) => {
-    console.log(`Item ${itemId} dropped into ${targetContainerId}`);
-    console.log("containers: ", containers);
-
-    // Create a deep copy of the containers to avoid mutation
-    const updatedContainers = { ...containers };
-
-    // Find the dragged item and remove it from its original container
-    let draggedItem: DraggableItemType | undefined;
-    for (const containerId of Object.keys(containers)) {
-      const itemIndex = updatedContainers[containerId].findIndex(
-        (item) => item.id === itemId
-      );
-
-      if (itemIndex !== -1) {
-        // Item found, remove it from the original container
-        draggedItem = updatedContainers[containerId][itemIndex];
-        updatedContainers[containerId].splice(itemIndex, 1); // Remove the item
-        break; // Exit the loop after finding the item
-      }
-    }
-
-    // If draggedItem is found, add it to the target container
-    if (draggedItem) {
-      // Make sure to initialize the target container if it doesn't exist
-      if (!updatedContainers[targetContainerId]) {
-        updatedContainers[targetContainerId] = [];
-      }
-
-      updatedContainers[targetContainerId].push(draggedItem); // Add the dragged item to the target container
-      setContainers(updatedContainers); // Update the state with the new containers
-    }
+  const handleDropItem = (item: Id<"tasks">, targetContainerId: string) => {
+    console.log("Item ID", item);
+    console.log("Dropped Into the Container ", targetContainerId);
+    dropTask({ taskID: item, targetStatus: targetContainerId });
   };
 
   const handleSelectItem = (item: DraggableItemTypeNew) => {
@@ -150,22 +122,22 @@ const MainComponent: FC = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="flex justify-between items-start  w-full ">
         <Container
-          id="toDo_Container"
-          items={containersNEW.toDo_Container}
+          id="to_do"
+          items={containersNEW.to_do}
           onDropItem={handleDropItem}
           onAddItem={handleAddNewItem}
           onSelectItem={handleSelectItem}
         />
         <Container
-          id="onProgress_Container"
-          items={containersNEW.onProgress_Container}
+          id="on_progress"
+          items={containersNEW.on_progress}
           onDropItem={handleDropItem}
           onAddItem={handleAddNewItem}
           onSelectItem={handleSelectItem}
         />
         <Container
-          id="done_Container"
-          items={containersNEW.done_Container}
+          id="done"
+          items={containersNEW.done}
           onDropItem={handleDropItem}
           onAddItem={handleAddNewItem}
           onSelectItem={handleSelectItem}

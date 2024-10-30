@@ -27,7 +27,7 @@ interface ContainerProps {
   // items: DraggableItemType[];
   items: DraggableItemTypeNew[];
 
-  onDropItem: (itemId: number, targetContainerId: string) => void;
+  onDropItem: (item: Id<"tasks">, targetContainerId: string) => void;
   onAddItem: (item: DraggableItemType, targetContainerId: string) => void;
   onSelectItem: (item: DraggableItemTypeNew) => void;
 }
@@ -55,7 +55,10 @@ const Container: FC<ContainerProps> = ({
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "ITEM",
-    drop: (item: DraggableItemTypeNew) => onDropItem(Number(item._id), id),
+    drop: (item: { _id: Id<"tasks"> }) => {
+      console.log("Item", item);
+      onDropItem(item._id, id);
+    },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
