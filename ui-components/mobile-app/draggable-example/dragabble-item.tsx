@@ -1,27 +1,26 @@
 import { FC, useRef } from "react";
 import { useDrag } from "react-dnd";
-import { DraggableItemType } from "@/lib/types";
+import { DraggableItemType, DraggableItemTypeNew } from "@/lib/types";
 import { BsThreeDots } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LiaCommentDotsSolid } from "react-icons/lia";
 import { FaFolderOpen } from "react-icons/fa6";
 
-const DraggableItem: FC<DraggableItemType> = ({
-  id,
+const DraggableItem: FC<DraggableItemTypeNew> = ({
+  _id,
   content,
   assignees,
   comments,
-  contentTitle,
+  title,
   files,
   priority,
-  title,
 }) => {
   const dragRef = useRef<HTMLDivElement>(null);
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "ITEM",
-    item: { id },
+    item: { _id },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -46,8 +45,8 @@ const DraggableItem: FC<DraggableItemType> = ({
       priority === "High"
         ? "bg-red-500 "
         : priority === "Medium"
-        ? "bg-yellow-300 text-yellow-800"
-        : "bg-green-400 text-green-900"
+          ? "bg-yellow-300 text-yellow-800"
+          : "bg-green-400 text-green-900"
     } 
     p-1 rounded-md text-xs font-semibold font-sans
   `}
@@ -63,7 +62,7 @@ const DraggableItem: FC<DraggableItemType> = ({
       </div>
 
       <div className="flex flex-col gap-2">
-        <span className="text-lg font-sans font-bold">{contentTitle}</span>
+        <span className="text-lg font-sans font-bold">{title}</span>
         <span className="text-sm opacity-40">{content}</span>
       </div>
       <div className="flex justify-between">

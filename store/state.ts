@@ -1,16 +1,16 @@
-import { DraggableItemType } from "@/lib/types";
+import { DraggableItemType, DraggableItemTypeNew } from "@/lib/types";
 import { create } from "zustand";
 
 interface StoreState {
   count: number;
   itemSelected: boolean;
   showSideBar: boolean;
-  selectedItem: DraggableItemType | null;
+  selectedItem: DraggableItemTypeNew | null;
   increment: () => void;
   decrement: () => void;
   setItemSelected: (newvalue: boolean) => void;
   setShowSideBar: (newvalue: boolean) => void;
-  setSelectedItem: (newvalue: DraggableItemType | null) => void;
+  setSelectedItem: (newvalue: DraggableItemTypeNew | null) => void;
 }
 
 const useStore = create<StoreState>((set) => ({
@@ -22,7 +22,7 @@ const useStore = create<StoreState>((set) => ({
   decrement: () => set((state) => ({ count: state.count - 1 })),
   setItemSelected: (newValue: boolean) => set({ itemSelected: newValue }),
   setShowSideBar: (newValue: boolean) => set({ showSideBar: newValue }),
-  setSelectedItem: (newItem: DraggableItemType | null) =>
+  setSelectedItem: (newItem: DraggableItemTypeNew | null) =>
     set({ selectedItem: newItem }),
 }));
 

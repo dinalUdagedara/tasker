@@ -1,9 +1,13 @@
 "use client";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Container from "./container";
-import { DraggableItemType, initialContainerss } from "@/lib/types";
+import {
+  DraggableItemType,
+  DraggableItemTypeNew,
+  initialContainerss,
+} from "@/lib/types";
 import useStore from "@/store/state";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -13,6 +17,14 @@ const MainComponent: FC = () => {
   const [containers, setContainers] = useState<{
     [key: string]: DraggableItemType[];
   }>(initialContainerss); // Use the imported initial containers
+
+  const [containersNEW, setContainersNEW] = useState<{
+    [key: string]: DraggableItemTypeNew[];
+  }>({
+    toDo_Container: [],
+    onProgress_Container: [],
+    done_Container: [],
+  });
 
   const setItemSelected = useStore((state) => state.setItemSelected);
   const setShowSideBar = useStore((state) => state.setShowSideBar);
@@ -27,6 +39,51 @@ const MainComponent: FC = () => {
   });
 
   console.log("Allthe tasks", allTheTasks);
+
+  useEffect(() => {
+    if (allTheTasks) {
+      const updatedContainers: {
+        toDo_Container: DraggableItemTypeNew[];
+        onProgress_Container: DraggableItemTypeNew[];
+        done_Container: DraggableItemTypeNew[];
+      } = {
+        toDo_Container: [],
+        onProgress_Container: [],
+        done_Container: [],
+      };
+
+      allTheTasks.forEach((task) => {
+        const draggableTask: DraggableItemTypeNew = {
+          _id: task._id,
+          _creationTime: task._creationTime,
+          title: task.title,
+          content: task.content,
+          status: task.status,
+          priority: task.priority,
+          assignees: task.assignees,
+          comments: task.comments,
+          files: task.files,
+          creator: task.creator,
+        };
+
+        // Distribute tasks into containers based on their status
+        if (task.status === "to-do") {
+          updatedContainers.toDo_Container.push(draggableTask);
+        } else if (task.status === "done") {
+          updatedContainers.onProgress_Container.push(draggableTask);
+        } else if (task.status === "in-progress") {
+          updatedContainers.done_Container.push(draggableTask);
+        }
+      });
+
+      setContainersNEW(updatedContainers);
+      // setContainers(updatedContainers)
+    }
+  }, [allTheTasks]);
+
+  useEffect(() => {
+    console.log("containersNew", containersNEW);
+  }, [containersNEW]);
 
   const handleDropItem = (itemId: number, targetContainerId: string) => {
     console.log(`Item ${itemId} dropped into ${targetContainerId}`);
@@ -62,7 +119,7 @@ const MainComponent: FC = () => {
     }
   };
 
-  const handleSelectItem = (item: DraggableItemType) => {
+  const handleSelectItem = (item: DraggableItemTypeNew) => {
     const containerID = item.title;
     setItemSelected(true);
     setShowSideBar(true);
@@ -93,22 +150,22 @@ const MainComponent: FC = () => {
     <DndProvider backend={HTML5Backend}>
       <div className="flex justify-between items-start  w-full ">
         <Container
-          id="container1"
-          items={containers.container1}
+          id="toDo_Container"
+          items={containersNEW.toDo_Container}
           onDropItem={handleDropItem}
           onAddItem={handleAddNewItem}
           onSelectItem={handleSelectItem}
         />
         <Container
-          id="container2"
-          items={containers.container2}
+          id="onProgress_Container"
+          items={containersNEW.onProgress_Container}
           onDropItem={handleDropItem}
           onAddItem={handleAddNewItem}
           onSelectItem={handleSelectItem}
         />
         <Container
-          id="container3"
-          items={containers.container3}
+          id="done_Container"
+          items={containersNEW.done_Container}
           onDropItem={handleDropItem}
           onAddItem={handleAddNewItem}
           onSelectItem={handleSelectItem}

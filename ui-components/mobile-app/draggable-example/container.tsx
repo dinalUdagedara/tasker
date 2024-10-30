@@ -1,7 +1,11 @@
 import { FC, useEffect, useRef, useState } from "react";
 import { useDrop } from "react-dnd";
 import DraggableItem from "./dragabble-item";
-import { DraggableItemType } from "@/lib/types";
+import {
+  DraggableItemType,
+  DraggableItemTypeNew,
+  userIDSample,
+} from "@/lib/types";
 import { FaSquarePlus } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,13 +20,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import useStore from "@/store/state";
+import { Id } from "@/convex/_generated/dataModel";
 
 interface ContainerProps {
   id: string;
-  items: DraggableItemType[];
+  // items: DraggableItemType[];
+  items: DraggableItemTypeNew[];
+
   onDropItem: (itemId: number, targetContainerId: string) => void;
   onAddItem: (item: DraggableItemType, targetContainerId: string) => void;
-  onSelectItem: (item: DraggableItemType) => void;
+  onSelectItem: (item: DraggableItemTypeNew) => void;
 }
 
 const Container: FC<ContainerProps> = ({
@@ -38,7 +45,7 @@ const Container: FC<ContainerProps> = ({
   const [assignee, setAssignee] = useState("");
   const [priority, setPriority] = useState("Medium");
   const [containerItems, setContainerItems] =
-    useState<DraggableItemType[]>(items);
+    useState<DraggableItemTypeNew[]>(items);
   const [showForm, setShowForm] = useState(false);
 
   const ref = useRef<HTMLDivElement>(null);
@@ -48,7 +55,7 @@ const Container: FC<ContainerProps> = ({
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "ITEM",
-    drop: (item: { id: number }) => onDropItem(item.id, id),
+    drop: (item: DraggableItemTypeNew) => onDropItem(Number(item._id), id),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
@@ -78,7 +85,7 @@ const Container: FC<ContainerProps> = ({
     setShowForm(false);
   };
 
-  const selectItem = (item: DraggableItemType) => {
+  const selectItem = (item: DraggableItemTypeNew) => {
     onSelectItem(item);
   };
 
@@ -112,6 +119,12 @@ const Container: FC<ContainerProps> = ({
     };
   }, [showForm, contentTitle, content, assignee, priority]);
 
+  const userID: Id<"users"> = userIDSample as Id<"users">;
+
+  useEffect(() => {
+    if (items) setContainerItems(items);
+  }, [items]);
+
   return (
     <div
       ref={ref}
@@ -127,12 +140,12 @@ const Container: FC<ContainerProps> = ({
         <div className="flex gap-2 items-center justify-center">
           <span
             className={`  ${
-              containerItems[0].title === "To Do" ? "" : "bg"
+              containerItems[0]?.title === "To Do" ? "" : "bg"
             } w-3 h-3  rounded-full mr-2`}
           ></span>
           {containerItems[0] ? (
             <span className="text-lg font-semibold font-sans">
-              {containerItems[0].title}
+              {containerItems[0].status}
             </span>
           ) : (
             <span className="text-lg font-semibold font-sans">
@@ -161,15 +174,17 @@ const Container: FC<ContainerProps> = ({
           }}
         >
           <DraggableItem
-            key={item.id}
-            id={item.id}
+            _id={item._id}
+            key={item._id}
             content={item.content}
             assignees={item.assignees}
             comments={item.comments}
-            contentTitle={item.contentTitle}
             files={item.files}
             priority={item.priority}
             title={item.title}
+            _creationTime={0}
+            status={""}
+            creator={userID}
           />
         </div>
       ))}
