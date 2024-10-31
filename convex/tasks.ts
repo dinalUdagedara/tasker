@@ -41,3 +41,28 @@ export const droppingTasks = mutation({
     });
   },
 });
+
+// Adding a New task to the DB
+export const addNewTask = mutation({
+  args: {
+    creator: v.id("users"),
+    title: v.string(),
+    content: v.string(),
+    priority: v.string(),
+    status: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const newTask = await ctx.db.insert("tasks", {
+      title: args.title,
+      content: args.content,
+      assignees: [],
+      comments: [],
+      creator: args.creator,
+      files: [],
+      priority: args.priority,
+      status: args.status,
+    });
+
+    return newTask;
+  },
+});
