@@ -13,7 +13,8 @@ export type DraggableItemType = {
   assignees: string[];
 };
 
-export const userIDSample = "jh733jcdtpa81eqk6hx3m6rht173et4k";
+const userIDSample = "jh733jcdtpa81eqk6hx3m6rht173et4k";
+export const sampleUserID: Id<"users"> = userIDSample as Id<"users">;
 
 // Assuming you have defined your task model somewhere
 export type DraggableItemTypeNew = {

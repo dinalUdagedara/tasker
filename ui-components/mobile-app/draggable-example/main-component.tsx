@@ -99,25 +99,6 @@ const MainComponent: FC = () => {
     console.log("selected item: ", item);
   };
 
-  const handleAddNewItem = (
-    item: DraggableItemType,
-    targetContainerId: string
-  ) => {
-    // Create a deep copy of the containers to avoid mutation
-    const updatedContainers = { ...containers };
-
-    // Check if the target container exists, if not, initialize it
-    if (!updatedContainers[targetContainerId]) {
-      updatedContainers[targetContainerId] = [];
-    }
-
-    // Add the new item to the target container
-    updatedContainers[targetContainerId].push(item);
-
-    // Update the state with the new containers
-    setContainers(updatedContainers);
-  };
-
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="flex justify-between items-start  w-full ">
@@ -125,21 +106,18 @@ const MainComponent: FC = () => {
           id="to_do"
           items={containersNEW.to_do}
           onDropItem={handleDropItem}
-          onAddItem={handleAddNewItem}
           onSelectItem={handleSelectItem}
         />
         <Container
           id="on_progress"
           items={containersNEW.on_progress}
           onDropItem={handleDropItem}
-          onAddItem={handleAddNewItem}
           onSelectItem={handleSelectItem}
         />
         <Container
           id="done"
           items={containersNEW.done}
           onDropItem={handleDropItem}
-          onAddItem={handleAddNewItem}
           onSelectItem={handleSelectItem}
         />
       </div>

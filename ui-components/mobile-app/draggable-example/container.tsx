@@ -4,7 +4,7 @@ import DraggableItem from "./dragabble-item";
 import {
   DraggableItemType,
   DraggableItemTypeNew,
-  userIDSample,
+  sampleUserID,
 } from "@/lib/types";
 import { FaSquarePlus } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/select";
 import useStore from "@/store/state";
 import { Id } from "@/convex/_generated/dataModel";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 interface ContainerProps {
   id: string;
@@ -28,7 +30,6 @@ interface ContainerProps {
   items: DraggableItemTypeNew[];
 
   onDropItem: (item: Id<"tasks">, targetContainerId: string) => void;
-  onAddItem: (item: DraggableItemType, targetContainerId: string) => void;
   onSelectItem: (item: DraggableItemTypeNew) => void;
 }
 
@@ -36,12 +37,10 @@ const Container: FC<ContainerProps> = ({
   id,
   items,
   onDropItem,
-  onAddItem,
   onSelectItem,
 }) => {
   const [contentTitle, setContentTitle] = useState("");
   const [content, setContent] = useState("");
-  const [title, setTitle] = useState("");
   const [assignee, setAssignee] = useState("");
   const [priority, setPriority] = useState("Medium");
   const [containerItems, setContainerItems] =
@@ -52,6 +51,7 @@ const Container: FC<ContainerProps> = ({
   const formRef = useRef<HTMLDivElement>(null);
   const selectRef = useRef<HTMLDivElement>(null);
   const setItemSelected = useStore((state) => state.setItemSelected);
+  const addTask = useMutation(api.tasks.addNewTask);
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "ITEM",
@@ -66,19 +66,15 @@ const Container: FC<ContainerProps> = ({
 
   drop(ref);
   const handleAddItem = () => {
-    const newItem: DraggableItemType = {
-      id: Date.now(),
-      title,
-      priority,
-      contentTitle,
-      content,
-      comments: [],
-      files: [],
-      assignees: [assignee],
-    };
+    console.log("Priority", priority);
 
-    // Use onAddItem prop to add the new item to the container
-    onAddItem(newItem, id);
+    addTask({
+      content: content,
+      creator: sampleUserID,
+      priority: priority,
+      status: id,
+      title: contentTitle,
+    });
 
     // Reset form fields after adding the item
     setContentTitle("");
@@ -121,8 +117,6 @@ const Container: FC<ContainerProps> = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showForm, contentTitle, content, assignee, priority]);
-
-  const userID: Id<"users"> = userIDSample as Id<"users">;
 
   useEffect(() => {
     if (items) setContainerItems(items);
@@ -187,7 +181,7 @@ const Container: FC<ContainerProps> = ({
             title={item.title}
             _creationTime={0}
             status={""}
-            creator={userID}
+            creator={sampleUserID}
           />
         </div>
       ))}
@@ -197,16 +191,6 @@ const Container: FC<ContainerProps> = ({
           ref={formRef}
           className="p-4 bg-gray-50 dark:bg-black/40 rounded-lg shadow-sm mb-2 flex flex-col gap-2 cursor-pointer"
         >
-          {/* This is a comment  
-          <Input
-            id="contentTitle"
-            value={contentTitle}
-            onChange={(e) => setContentTitle(e.target.value)}
-            placeholder="Task"
-            required
-            className="border-none focus-visible:outline-none focus:ring-0"
-          />
-*/}
           <div className="relative">
             <FaFileLines className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
             <Input
@@ -223,22 +207,10 @@ const Container: FC<ContainerProps> = ({
             id="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Add Content"
+            placeholder="Short Description about the task"
             required
             className="border-none outline-none focus:outline-none focus:ring-0 focus:border-none hover:border-none"
           />
-
-          {/* <div className="assigneiconclz">
-            <FaUsers className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-            <input
-              id="assignee"
-              value={assignee}
-              onChange={(e) => setAssignee(e.target.value)}
-              placeholder="Add Assignee"
-              required
-              className="pl-10 border-none focus:border-none focus:ring-0 focus:outline-none"
-            />
-          </div> */}
 
           <div className="relative">
             <input
@@ -257,7 +229,10 @@ const Container: FC<ContainerProps> = ({
             )}
           </div>
           <Select
-            onValueChange={(value) => setPriority(value)}
+            onValueChange={(value) => {
+              // console.log("Priotiry Change ", value);
+              setPriority(value);
+            }}
             value={priority}
           >
             <SelectTrigger>
