@@ -66,3 +66,45 @@ export const addNewTask = mutation({
     return newTask;
   },
 });
+
+// Editing a task
+
+export const editTask = mutation({
+  args: {
+    taskID: v.id("tasks"),
+    title: v.string(),
+    content: v.string(),
+    priority: v.string(),
+    status: v.string(),
+    comments: v.array(
+      v.object({
+        author: v.string(),
+        content: v.string(),
+        timestamp: v.string(),
+      })
+    ),
+    assignees: v.array(v.string()),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.taskID, {
+      title: args.title,
+      content: args.content,
+      comments: args.comments,
+      assignees: args.assignees,
+      priority: args.priority,
+      status: args.status,
+    });
+  },
+});
+
+export const getTaskByID = query({
+  args: {
+    taskId: v.id("tasks"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("tasks")
+      .filter((q) => q.eq(q.field("_id"), args.taskId))
+      .first();
+  },
+});

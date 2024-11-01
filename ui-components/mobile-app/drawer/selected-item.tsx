@@ -13,25 +13,27 @@ const SelctedItem = () => {
       <span className="font-sans text-3xl font-bold">
         {selectedItem?.title}
       </span>
-      <div className="flex justify- gap-8 mt-10">
+      <div className="flex gap-8 mt-10">
         <span className="font-sans ">Summary:</span>
         <span className="font-sans ">{selectedItem?.content}</span>
       </div>
-      <div className="flex justify- gap-8 ">
+      <div className="flex gap-8 ">
         <span className="font-sans ">Assingee:</span>
-        <span className="font-sans ">{selectedItem?.assignees}</span>
+        {selectedItem?.assignees && selectedItem.assignees.length > 0 ? (
+          <>
+            <span className="font-sans ">{selectedItem?.assignees}</span>
+          </>
+        ) : (
+          <>No assignees</>
+        )}
       </div>
-      <div className="flex justify- gap-8 ">
-        <span className="font-sans ">Project:</span>
-        <span className="font-sans ">Project Name</span>
-      </div>
-      <div className="flex justify- gap-8 ">
+      <div className="flex  gap-8 ">
         <span className="font-sans ">Status:</span>
-        <span className="font-sans ">Task Status</span>
+        <span className="font-sans ">{selectedItem?.status}</span>
       </div>
-      <div className="flex justify- gap-8 ">
+      <div className="flex  gap-8 ">
         <span className="font-sans ">Priority:</span>
-        <span className="font-sans ">Task Priority</span>
+        <span className="font-sans ">{selectedItem?.priority}</span>
       </div>
 
       <Separator />
@@ -44,10 +46,7 @@ const SelctedItem = () => {
       </div>
       <Separator />
 
-      <div>
-        <span className="font-sans font-semibold text-xl">Description : </span>
-      </div>
-      <div className="mt-20 flex justify-end">
+      <div className="mt-20 mr-5 flex justify-end">
         <Button
           onClick={() => {
             setItemSelected(false);
