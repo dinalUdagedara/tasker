@@ -1,6 +1,11 @@
 import { Id } from "@/convex/_generated/dataModel";
 
 export type FileType = { taskID: string; file: string };
+export type CommentType = {
+  content: string;
+  author: string;
+  timestamp: string;
+};
 
 export type DraggableItemType = {
   id: number;
@@ -25,11 +30,7 @@ export type DraggableItemTypeNew = {
   status: string; // container1, container2, or container3
   priority: string;
   assignees: string[];
-  comments: {
-    content: string;
-    author: string;
-    timestamp: string;
-  }[];
+  comments: CommentType[];
   files: FileType[]; // Specify a more accurate type if possible
   creator: Id<"users">;
 };

@@ -17,7 +17,6 @@ export default defineSchema({
     ),
     files: v.array(
       v.object({
-        // taskID: v.id("tasks"),
         taskID: v.string(),
         file: v.string(),
       })

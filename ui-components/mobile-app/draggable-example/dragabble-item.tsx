@@ -6,6 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LiaCommentDotsSolid } from "react-icons/lia";
 import { FaFolderOpen } from "react-icons/fa6";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { MdDelete } from "react-icons/md";
 
 const DraggableItem: FC<DraggableItemTypeNew> = ({
   _id,
@@ -17,6 +20,7 @@ const DraggableItem: FC<DraggableItemTypeNew> = ({
   priority,
 }) => {
   const dragRef = useRef<HTMLDivElement>(null);
+  const deleteTask = useMutation(api.tasks.deleteTask);
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "ITEM",
@@ -29,6 +33,12 @@ const DraggableItem: FC<DraggableItemTypeNew> = ({
   drag(dragRef);
   const commentCount = comments.length;
   const fileCount = files.length;
+
+  const handleDelete = () => {
+    deleteTask({
+      id: _id,
+    });
+  };
 
   return (
     <div
@@ -55,8 +65,13 @@ const DraggableItem: FC<DraggableItemTypeNew> = ({
         </span>
 
         <span>
-          <Button variant={"outline"} size={"icon"} className="border-0">
-            <BsThreeDots />
+          <Button
+            // onClick={handleDelete}
+            variant={"outline"}
+            size={"icon"}
+            className="border-0"
+          >
+            <MdDelete className="h-5 w-5" />
           </Button>
         </span>
       </div>

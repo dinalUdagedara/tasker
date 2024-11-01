@@ -92,7 +92,7 @@ const MainComponent: FC = () => {
   };
 
   const handleSelectItem = (item: DraggableItemTypeNew) => {
-    const containerID = item.title;
+    const taskID = item._id;
     setItemSelected(true);
     setShowSideBar(true);
     setSelectedItem(item);
