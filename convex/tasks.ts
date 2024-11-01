@@ -108,3 +108,10 @@ export const getTaskByID = query({
       .first();
   },
 });
+
+export const deleteTask = mutation({
+  args: { id: v.id("tasks") },
+  handler: async (ctx, args) => {
+    await ctx.db.delete(args.id);
+  },
+});
