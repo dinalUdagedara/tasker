@@ -21,22 +21,6 @@ const ContactCard: React.FC<ChatHeadProps> = ({
   const decrement = useStore((state) => state.decrement);
   return (
     <div className="flex flex-row gap-2 items-center mt-5 mb-5">
-
-
-      {/* Use the states like this */}
-      <div className="w-full flex justify-center items-center p-20 gap-5 flex-col">
-        <h1>{count}</h1>
-
-        <div className="flex gap-10">
-          <Button onClick={increment}>Increment</Button>
-          <Button onClick={decrement}>Decrement</Button>
-        </div>
-      </div>
-      {/* Remove these after using */}
-
-
-      
-
       <div className="flex">
         <Avatar>
           <AvatarImage src={imageUrl} />
