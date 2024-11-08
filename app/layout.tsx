@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import SideBar from "../ui-components/sidebar";
-import { ThemeProvider } from "@/components/theme-provider";
-import Header from "../ui-components/header";
+import SideBar from "../ui-components/sidebar/sidebar";
+import { ThemeProvider } from "@/ui-components/providers/theme-provider";
+import Header from "../ui-components/header/header";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 
 const geistSans = localFont({

@@ -1,9 +1,7 @@
 import React from "react";
 import LoginForm from "@/ui-components/authentication/login/login";
 
-type Props = {};
-
-const page = (props: Props) => {
+const SignIn = () => {
   return (
     <div>
       <LoginForm />
@@ -11,4 +9,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default SignIn;
