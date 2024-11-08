@@ -1,20 +1,53 @@
 "use client";
+import { useState } from "react";
 import Link from "next/link";
-import SocialProviders from "../login/social-providers";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+
 const Register = () => {
+  // State to store the form inputs
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Convex mutation to register the user
+  const registerUser = useMutation(api.users.registerUser);
+
+  // Handle form submission
+  const handleRegisterUser = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    // Basic validation (you can add more)
+    if (!name || !email || !password) {
+      alert("Please fill out all fields");
+      return;
+    }
+
+    try {
+      // Calling the mutation to register the user
+      await registerUser({ email, name, password });
+      alert("Registration successful");
+    } catch (error) {
+      console.error("Error registering user:", error);
+      alert("Registration failed, please try again.");
+    }
+  };
+
   return (
     <div>
       <form
         className="my-5 flex flex-col items-center border p-3 border-gray-200 rounded-md"
-        // onSubmit={handleFormSubmit}
+        onSubmit={handleRegisterUser}
       >
         <div className="my-2">
           <label htmlFor="name">Name</label>
           <input
             className="border mx-2 border-gray-500 rounded"
-            type="name"
+            type="text"
             name="name"
             id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)} // Update state on input change
           />
         </div>
 
@@ -25,6 +58,8 @@ const Register = () => {
             type="email"
             name="email"
             id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)} // Update state on input change
           />
         </div>
 
@@ -35,6 +70,8 @@ const Register = () => {
             type="password"
             name="password"
             id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} // Update state on input change
           />
         </div>
 
@@ -45,9 +82,9 @@ const Register = () => {
           Register
         </button>
         <div>
-        Already have an Account? {" "}
+          Already have an Account?{" "}
           <Link className="underline" href={"/sign-in"}>
-           Sign in
+            Sign in
           </Link>
         </div>
       </form>
