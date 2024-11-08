@@ -6,6 +6,7 @@ import { DatePicker } from "@/components/ui/date-picker";
 import { Faq } from "./faq";
 import { Notifications } from "./notifications";
 import UserIcon from "./user-icon";
+import Logout from "./authentication/login/log-out";
 
 const Header = () => {
   return (
@@ -41,6 +42,9 @@ const Header = () => {
           </div>
           <div className="pr-2">
             <UserIcon />
+          </div>
+          <div>
+            <Logout />
           </div>
         </div>
       </div>
