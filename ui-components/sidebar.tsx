@@ -54,12 +54,15 @@ const SideBar = () => {
               </Button>
             </div>
             <div className="w-full">
-              <Button
-                className="w-full flex justify-start pl-6"
-                variant={"ghost"}
-              >
-                <BiMessageSquareDetail className="mr-2 h-4 w-4" /> Messages
-              </Button>
+              <Link href={"/chat"}>
+                {" "}
+                <Button
+                  className="w-full flex justify-start pl-6"
+                  variant={"ghost"}
+                >
+                  <BiMessageSquareDetail className="mr-2 h-4 w-4" /> Messages
+                </Button>
+              </Link>
             </div>
             <div className="w-full">
               <Button
