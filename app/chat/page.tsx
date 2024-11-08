@@ -1,6 +1,5 @@
 import Chat from "@/ui-components/messages/chat";
 import { auth } from "@/auth";
-
 import { redirect } from "next/navigation";
 
 const MobileAppContent = async () => {

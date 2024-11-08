@@ -7,7 +7,7 @@ import Header from "../ui-components/header/header";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 
 const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+  src: "../public/assets/fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });

@@ -7,8 +7,11 @@ import { Faq } from "./faq";
 import { Notifications } from "./notifications";
 import UserIcon from "./user-icon";
 import Logout from "../authentication/login/log-out";
+import { auth } from "@/auth";
 
-const Header = () => {
+const Header = async () => {
+  const session = await auth(); // Fetch session on the server
+
   return (
     <div className="h-full w-full flex justify-between">
       <div className="text-4xl font-sans font-bold lg:border-r-2 border-b-2 sm:w-1/5 flex justify-center py-4 px-4 sm:px-0">
@@ -41,11 +44,9 @@ const Header = () => {
             <ModeToggle />
           </div>
           <div className="pr-2">
-            <UserIcon />
+            {session && <UserIcon session={session} />}
           </div>
-          <div>
-            <Logout />
-          </div>
+          {session && <Logout />}
         </div>
       </div>
     </div>
