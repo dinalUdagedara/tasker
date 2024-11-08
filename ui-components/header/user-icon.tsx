@@ -1,10 +1,22 @@
+"use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UserInformation } from "./user-information";
 import { auth } from "@/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Session } from "next-auth";
 
-const UserIcon = async () => {
-  const session = await auth();
+export const UserIcon = ({ session }: { session: Session }) => {
+  const [userName, setUserName] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string>("");
+
+  useEffect(() => {
+    if (session?.user?.email) {
+      setUserEmail(session.user.email || ""); // Fallback to empty string if undefined
+    }
+    if (session?.user?.name) {
+      setUserName(session.user.name || ""); // Handle username as well
+    }
+  }, [session]);
 
   return (
     <div className="flex flex-row gap-2 justify-center items-center">
@@ -15,9 +27,15 @@ const UserIcon = async () => {
           </>
         ) : (
           <>
-            <p className="text-lg font-sans font-semibold">
-              {session.user.name}
-            </p>
+            {session.user.name ? (
+              <>
+                <p className="text-lg font-sans font-semibold">{userName}</p>
+              </>
+            ) : (
+              <>
+                <p className="text-lg font-sans font-semibold">{userEmail}</p>
+              </>
+            )}
           </>
         )}
         <p className="text-sm font-sans font-thin text-right">

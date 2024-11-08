@@ -12,3 +12,20 @@ export async function doSocialLogin(formData: FormData) {
 export async function doLogout() {
   await signOut({ redirectTo: "/" });
 }
+export async function doCredentialLogin(formData: FormData) {
+  try {
+    const response = await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      redirect: false,
+    });
+
+    if (!response || response.error) {
+      return { error: "Invalid credentials. Please try again." };
+    }
+
+    return response;
+  } catch (error) {
+    return { error: error instanceof Error ? error.message : "Invalid credentials. Please try again." };
+  }
+}
