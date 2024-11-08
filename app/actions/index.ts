@@ -26,6 +26,6 @@ export async function doCredentialLogin(formData: FormData) {
 
     return response;
   } catch (error) {
-     return { error: "Invalid credentials. Please try again." };
+    return { error: error instanceof Error ? error.message : "Invalid credentials. Please try again." };
   }
 }
