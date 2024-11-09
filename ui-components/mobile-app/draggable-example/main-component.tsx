@@ -13,11 +13,11 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 
-const MainComponent: FC = () => {
-  const [containers, setContainers] = useState<{
-    [key: string]: DraggableItemType[];
-  }>(); // Use the imported initial containers
+interface MainComponentProps {
+  email: string;
+}
 
+const MainComponent: FC<MainComponentProps> = ({ email }) => {
   const [containersNEW, setContainersNEW] = useState<{
     [key: string]: DraggableItemTypeNew[];
   }>({
@@ -34,14 +34,16 @@ const MainComponent: FC = () => {
   const userIDSample = "jh733jcdtpa81eqk6hx3m6rht173et4k";
   const userID: Id<"users"> = userIDSample as Id<"users">;
 
-  const allTheTasks = useQuery(api.tasks.getTasksByID, {
-    userId: userID,
+  // const allTheTasks = useQuery(api.tasks.getTasksByID, {
+  //   userId: userID,
+  // });
+
+  const allTasks = useQuery(api.tasks.getTasksByEmail, {
+    email: email,
   });
 
-  console.log("Allthe tasks", allTheTasks);
-
   useEffect(() => {
-    if (allTheTasks) {
+    if (allTasks) {
       const updatedContainers: {
         to_do: DraggableItemTypeNew[];
         on_progress: DraggableItemTypeNew[];
@@ -52,7 +54,7 @@ const MainComponent: FC = () => {
         done: [],
       };
 
-      allTheTasks.forEach((task) => {
+      allTasks.forEach((task) => {
         const draggableTask: DraggableItemTypeNew = {
           _id: task._id,
           _creationTime: task._creationTime,
@@ -79,24 +81,17 @@ const MainComponent: FC = () => {
       setContainersNEW(updatedContainers);
       // setContainers(updatedContainers)
     }
-  }, [allTheTasks]);
-
-  useEffect(() => {
-    console.log("containersNew", containersNEW);
-  }, [containersNEW]);
+  }, [allTasks]);
 
   const handleDropItem = (item: Id<"tasks">, targetContainerId: string) => {
-    console.log("Item ID", item);
-    console.log("Dropped Into the Container ", targetContainerId);
     dropTask({ taskID: item, targetStatus: targetContainerId });
   };
 
   const handleSelectItem = (item: DraggableItemTypeNew) => {
-    const taskID = item._id;
     setItemSelected(true);
     setShowSideBar(true);
     setSelectedItem(item);
-    console.log("selected item: ", item);
+    // console.log("selected item: ", item);
   };
 
   return (

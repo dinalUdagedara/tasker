@@ -16,7 +16,7 @@ const Login = () => {
       if (response.error) {
         setError("Invalid credentials. Please try again.");
       } else {
-        router.push("/chat");
+        router.push("/");
       }
     } catch (error) {
       setError("An unexpected error occurred. Please try again.");
