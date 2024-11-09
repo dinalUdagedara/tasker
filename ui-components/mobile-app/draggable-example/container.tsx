@@ -1,3 +1,4 @@
+"use client";
 import { FC, useEffect, useRef, useState } from "react";
 import { useDrop } from "react-dnd";
 import DraggableItem from "./dragabble-item";
@@ -9,7 +10,6 @@ import {
 import { FaSquarePlus } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { LuCheckSquare } from "react-icons/lu";
 import { FaUsers } from "react-icons/fa6";
 import { FaFileLines } from "react-icons/fa6";
 import {
@@ -23,6 +23,7 @@ import useStore from "@/store/state";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { useSession } from "next-auth/react";
 
 interface ContainerProps {
   id: string;
@@ -53,6 +54,8 @@ const Container: FC<ContainerProps> = ({
   const setItemSelected = useStore((state) => state.setItemSelected);
   const addTask = useMutation(api.tasks.addNewTask);
 
+  const { data: session, status } = useSession();
+
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "ITEM",
     drop: (item: { _id: Id<"tasks"> }) => {
@@ -74,6 +77,7 @@ const Container: FC<ContainerProps> = ({
       priority: priority,
       status: id,
       title: contentTitle,
+      email: session?.user?.email || "",
     });
 
     // Reset form fields after adding the item

@@ -22,6 +22,7 @@ export default defineSchema({
       })
     ),
     creator: v.id("users"), // User ID of the creator
+    creatorEmail:v.string()
   }),
   users: defineTable({
     name: v.string(),

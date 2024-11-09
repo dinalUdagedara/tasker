@@ -20,6 +20,18 @@ export const getTasksByID = query({
   },
 });
 
+export const getTasksByEmail = query({
+  args: {
+    email: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("tasks")
+      .filter((q) => q.eq(q.field("creatorEmail"), args.email))
+      .collect();
+  },
+});
+
 // Updating the state of a task using the drag and dropping
 
 export const droppingTasks = mutation({
@@ -50,6 +62,7 @@ export const addNewTask = mutation({
     content: v.string(),
     priority: v.string(),
     status: v.string(),
+    email: v.string(),
   },
   handler: async (ctx, args) => {
     const newTask = await ctx.db.insert("tasks", {
@@ -61,6 +74,7 @@ export const addNewTask = mutation({
       files: [],
       priority: args.priority,
       status: args.status,
+      creatorEmail: args.email,
     });
 
     return newTask;
