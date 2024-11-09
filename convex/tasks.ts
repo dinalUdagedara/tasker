@@ -50,6 +50,7 @@ export const addNewTask = mutation({
     content: v.string(),
     priority: v.string(),
     status: v.string(),
+    email: v.string(),
   },
   handler: async (ctx, args) => {
     const newTask = await ctx.db.insert("tasks", {
@@ -61,6 +62,7 @@ export const addNewTask = mutation({
       files: [],
       priority: args.priority,
       status: args.status,
+      creatorEmail: args.email,
     });
 
     return newTask;

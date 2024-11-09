@@ -13,7 +13,6 @@ const Login = () => {
     try {
       const formData = new FormData(event.currentTarget);
       const response = await doCredentialLogin(formData);
-      console.log("Response:", response);
       if (response.error) {
         setError("Invalid credentials. Please try again.");
       } else {
