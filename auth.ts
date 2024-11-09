@@ -4,6 +4,7 @@ import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 import { getUserByEmail } from "@/lib/sample-data";
+import { getUserByEmailNew } from "./lib/functions";
 
 export const {
   handlers: { GET, POST },
@@ -26,11 +27,10 @@ export const {
         }
 
         try {
-          // Assert that credentials.email and credentials.password are strings
           const email = credentials?.email as string;
-          const password = credentials?.password as string;
-          const user = getUserByEmail(email);
-          console.log(user);
+
+          // const user = getUserByEmail(email);
+          const user = await getUserByEmailNew(email);
           if (!user) {
             // Return null if user is not found and pass an error message
             throw new Error("User not found.");

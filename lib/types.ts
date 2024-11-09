@@ -35,6 +35,13 @@ export type DraggableItemTypeNew = {
   creator: Id<"users">;
 };
 
+export type User = {
+  _id: Id<"users">;
+  name: string;
+  email: string;
+  password: string;
+};
+
 export const initialContainerss = {
   toDo_Container: [
     {

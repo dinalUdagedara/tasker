@@ -1,10 +1,10 @@
 import React from "react";
-import LoginForm from "@/ui-components/authentication/login/login";
+import LoginOptions from "@/ui-components/authentication/login/login-providers";
 
 const SignIn = () => {
   return (
     <div>
-      <LoginForm />
+      <LoginOptions/>
     </div>
   );
 };

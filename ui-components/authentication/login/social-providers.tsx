@@ -2,10 +2,10 @@ import { doSocialLogin } from "@/app/actions";
 
 const SocialProviders = () => {
   return (
-    <div className="flex w-full justify-center items-center h-full min-h-[600px]">
+    <div className="flex w-full justify-center items-center h-full ">
       <form action={doSocialLogin}>
         <button
-          className="bg-pink-400 text-white p-1 rounded-md m-1 text-lg"
+          className="bg-green-700 text-white px-3 py-1 rounded-md m-1 text-lg"
           type="submit"
           name="action"
           value="google"

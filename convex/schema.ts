@@ -26,6 +26,6 @@ export default defineSchema({
   users: defineTable({
     name: v.string(),
     email: v.string(),
-    role: v.optional(v.string()), // e.g., "admin", "user"
+    password: v.string(),
   }),
 });
