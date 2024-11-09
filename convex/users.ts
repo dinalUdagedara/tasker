@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { error } from "console";
 
 export const registerUser = mutation({
   args: {
@@ -15,7 +16,8 @@ export const registerUser = mutation({
       .first();
 
     if (existingUser) {
-      throw new Error("A user with this email already exists.");
+      return { error: "A user with this email already exists." };
+      // throw new Error("A user with this email already exists.");
     }
 
     await ctx.db.insert("users", {
@@ -23,6 +25,8 @@ export const registerUser = mutation({
       name: args.name,
       password: args.password,
     });
+
+    return { success: "User registered successfully." };
   },
 });
 

@@ -3,8 +3,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { redirect, useRouter } from "next/navigation";
 
 const Register = () => {
+  const router = useRouter();
   // State to store the form inputs
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -14,7 +16,9 @@ const Register = () => {
   const registerUser = useMutation(api.users.registerUser);
 
   // Handle form submission
-  const handleRegisterUser = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleRegisterUser = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
 
     // Basic validation (you can add more)
@@ -24,9 +28,17 @@ const Register = () => {
     }
 
     try {
-      // Calling the mutation to register the user
-      await registerUser({ email, name, password });
-      alert("Registration successful");
+      // Call the mutation to register the user
+      const response = await registerUser({ email, name, password });
+
+      // Check for an error in the response
+      if (response.error) {
+        alert(response.error);
+      } else {
+        alert(response.success);
+        router.push("/sign-in");
+      }
+      // alert("Registration successful");
     } catch (error) {
       console.error("Error registering user:", error);
       alert("Registration failed, please try again.");

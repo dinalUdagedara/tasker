@@ -24,10 +24,6 @@ const Login = () => {
     }
   }
 
-  useEffect(() => {
-    console.log("Error:", error);
-  }, [error]);
-
   return (
     <div>
       <div className="text-xl text-red-500">{error}</div>
