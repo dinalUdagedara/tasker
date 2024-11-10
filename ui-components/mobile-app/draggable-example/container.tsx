@@ -146,7 +146,11 @@ const Container: FC<ContainerProps> = ({
           ></span>
           {containerItems[0] ? (
             <span className="text-lg font-semibold font-sans">
-              {containerItems[0].status}
+              {containerItems[0].status === "to_do" ? "To Do" :
+              containerItems[0].status === "on_progress" ? "In Progress" :
+              containerItems[0].status === "done" ? "Done" :
+              containerItems[0].status
+              }
             </span>
           ) : (
             <span className="text-lg font-semibold font-sans">
@@ -164,9 +168,39 @@ const Container: FC<ContainerProps> = ({
           className="bg-inherit border-0"
           onClick={() => setShowForm((prev) => !prev)}
         >
-          <FaSquarePlus className="w-4 h-4" color="gray" />
+          {/* <FaSquarePlus className="w-4 h-4" color="gray" /> */}
+          <FaSquarePlus
+            className="w-4 h-4"
+            color={
+              containerItems[0]?.status === "to_do"
+                ? "#5030E5"
+                : containerItems[0]?.status === "on_progress"
+                ? "#FFA500"
+                : containerItems[0]?.status === "done"
+                ? "green"
+                :""
+            }
+          />
         </Button>
       </div>
+
+      <div className="mb-3">
+        <hr
+          className="h-[3px]"
+          style={{
+            backgroundColor:
+              containerItems[0]?.status === "to_do"
+                ? "#5030E5"
+                : containerItems[0]?.status === "on_progress"
+                ? "#FFA500"
+                : containerItems[0]?.status === "done"
+                ? "green"
+                :""
+          }}
+        />
+      </div>
+
+
 
       {containerItems.map((item) => (
         <div

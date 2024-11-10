@@ -82,29 +82,27 @@ const DraggableItem: FC<DraggableItemTypeNew> = ({
       </div>
       <div className="flex justify-between">
         <div className="flex items-center">
-          <Avatar className="-ml-2 first:ml-0">
+          <Avatar className="-ml-2 first:ml-0 h-[30px] w-[30px]">
             <AvatarImage src="https://i.pravatar.cc/150?img=1" />
             <AvatarFallback>AB</AvatarFallback>
           </Avatar>
-          <Avatar className="-ml-2">
+          <Avatar className="-ml-2 h-[30px] w-[30px]">
             <AvatarImage src="https://i.pravatar.cc/150?img=2" />
             <AvatarFallback>CD</AvatarFallback>
           </Avatar>
-          <Avatar className="-ml-2">
+          <Avatar className="-ml-2 h-[30px] w-[30px]">
             <AvatarImage src="https://i.pravatar.cc/150?img=3" />
             <AvatarFallback>EF</AvatarFallback>
           </Avatar>
         </div>
 
-        <div className="flex items-center gap-1 opacity-50">
+        <div className="flex items-center gap-1 opacity-50 ml-3">
           <LiaCommentDotsSolid className="w-5 h-5" />
-
-          <span>{commentCount} comments</span>
+          <span className="text-sm font-light font-inter">{commentCount} comments</span>
         </div>
-        <div className="flex items-center gap-1 opacity-50">
+        <div className="flex items-center gap-1 opacity-50 ml-2">
           <FaFolderOpen className="w-5 h-5" />
-
-          <span>{fileCount} files</span>
+          <span className="text-sm font-light font-inter">{fileCount} files</span>
         </div>
       </div>
     </div>
