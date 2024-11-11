@@ -16,7 +16,7 @@ export function UserInformation() {
           <MdKeyboardArrowDown className="h-6 w-6" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-80 m-5 mr-12">
+      <PopoverContent className="w-80 m-7 mr-12">
         <div className="grid gap-4">
           <div className="space-y-2">
             <h4 className="font-medium leading-none">Dimensions</h4>
