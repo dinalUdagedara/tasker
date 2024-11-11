@@ -1,93 +1,57 @@
-import { RiSearch2Line } from "react-icons/ri";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+"use client";
 import ChatHead from "@/ui-components/messages/chat-head";
-import ContactCard from "@/ui-components/messages/contact-card";
-import ChatBubbleRecieve from "@/ui-components/messages/chat-bubble-recieve";
-import ChatBubbleSend from "@/ui-components/messages/chat-bubble-send";
+import { User } from "@/lib/types";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import ChatConversation from "./chat-conversation";
+import { Id } from "@/convex/_generated/dataModel";
 
-const Chat = () => {
+interface ChatComponentProps {
+  user: User;
+}
+
+const ChatComponent = ({ user }: ChatComponentProps) => {
+  const createConversation = useMutation(api.chat.createConversation);
+  const [conversationID, setConversationID] =
+    useState<Id<"chatConversations"> | null>(null);
+  const { data: session } = useSession(); // Get session from next-auth
+
+  useEffect(() => {
+    const initiateConversation = async () => {
+      if (user && session?.user?.email) {
+        try {
+          const conversation = await createConversation({
+            user_1_email: session.user.email,
+            user_2_email: user.email,
+          });
+          setConversationID(conversation); 
+        } catch (error) {
+          console.error("Error creating conversation", error);
+        }
+      }
+    };
+
+    initiateConversation();
+  }, [user, session]);
+
   return (
-    <>
-      <div className="grid grid-cols-3 ">
-        {/* Contact LIst Column */}
-        <div className="col-span-1 bg-gray-100 p-6 shadow-md min-h-[80vh]">
-          {/* Message Heading */}
-          <h2 className="text-2xl font-bold mb-4">Messages</h2>
-          {/* Searchbar */}
-          <div className="flex border-2 p-1 bg-muted rounded-md">
-            <Button className="border-0 bg-muted" variant="outline" size="icon">
-              <RiSearch2Line className="h-4 w-4" />
-            </Button>
-            <Input
-              className="border-0 bg-muted focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-              type="email"
-              placeholder="Search People"
-            />
-          </div>
-          <hr className="border-gray-300 mt-4" />
-          <div>
-            <ContactCard
-              imageUrl="https://github.com/shadcn.png"
-              name="Ginura Premawardana"
-              lastText="Hey this is my first nextjs project"
-              date="Oct 11"
-            />
-            <ContactCard
-              imageUrl="https://github.com/shadcn.png"
-              name="Ginura Premawardana"
-              lastText="Compiled in 442ms (2647 modules)"
-              date="Oct 11"
-            />
-            <ContactCard
-              imageUrl="https://github.com/shadcn.png"
-              name="Ginura Premawardana"
-              lastText="Dashboard, cards, authentication. Some"
-              date="Oct 11"
-            />
-            <ContactCard
-              imageUrl="https://github.com/shadcn.png"
-              name="Ginura Premawardana"
-              lastText="Use this as a guide to build your own"
-              date="Oct 11"
-            />
-            <ContactCard
-              imageUrl="https://github.com/shadcn.png"
-              name="Ginura Premawardana"
-              lastText="Utilities for controlling how flex and grid"
-              date="Oct 11"
-            />
-          </div>
-        </div>
-
-        {/* Chat Column */}
-        <div className="col-span-2 bg-white p-6 shadow-md">
-          <div className="pr-2">
-            <ChatHead
-              imageUrl="https://github.com/shadcn.png"
-              name="Ginura Premawardana"
-              userName="@Ginuzz"
-            />
-          </div>
-          <div className="mt-10">
-            {/* These are recieved messages */}
-            <ChatBubbleRecieve
-              msg="I’m down! Any ideas eyrjhfguye ue cry uej jrgur thgujrhtdgfrthtey r dfvfgt ftgtyfghbh gbd uyrgdfuye rgfu erg egrdf??"
-              time=""
-            />
-            <ChatBubbleRecieve msg="Hello hello" time="8.41 PM" />
-
-            {/* These are the senders messages */}
-            <ChatBubbleSend
-              msg="Hello hello hello uydrjshgdf ue uerhfn uirjiu erhf ieurkjhiu vui erghjviu rkjghvi uskrhg isurhv"
-              time=""
-            />
-            <ChatBubbleSend msg="Kollo dinna" time="8.41 PM" />
-          </div>
-        </div>
+    <div>
+      <div className="pr-2">
+        <ChatHead
+          imageUrl="https://github.com/shadcn.png"
+          name={user.name}
+          userName={user.email}
+        />
       </div>
-    </>
+      <div className="mt-10">
+        {conversationID && (
+          <ChatConversation user={user} conversationID={conversationID} />
+        )}
+      </div>
+    </div>
   );
 };
 
-export default Chat;
+export default ChatComponent;

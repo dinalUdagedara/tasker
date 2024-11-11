@@ -22,11 +22,21 @@ export default defineSchema({
       })
     ),
     creator: v.id("users"), // User ID of the creator
-    creatorEmail:v.string()
+    creatorEmail: v.string(),
   }),
   users: defineTable({
     name: v.string(),
     email: v.string(),
     password: v.string(),
+  }),
+  chatMessages: defineTable({
+    conversationId: v.id("chatConversations"), // ID of the conversation
+    senderEmail: v.string(),
+    message: v.string(),
+    timeStamp: v.string(),
+  }),
+  chatConversations: defineTable({
+    participantsEmails: v.array(v.string()), // Email IDs of the two participants
+    lastUpdated: v.string(), // Timestamp of last update (for ordering chats)
   }),
 });

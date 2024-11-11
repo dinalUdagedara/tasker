@@ -42,6 +42,15 @@ export type User = {
   password: string;
 };
 
+export type Message = {
+  _id: Id<"chatMessages">;
+  _creationTime: number;
+  conversationId: Id<"chatConversations">;
+  senderEmail: string;
+  message: string;
+  timeStamp: string;
+};
+
 export const initialContainerss = {
   toDo_Container: [
     {
