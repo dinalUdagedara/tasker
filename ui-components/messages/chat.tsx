@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
+import ChatConversation from "./chat-conversation";
 
 interface ChatComponentProps {
   user: User;
@@ -21,8 +22,8 @@ const ChatComponent = ({ user }: ChatComponentProps) => {
       if (user && session?.user?.email) {
         try {
           const conversation = await createConversation({
-            user_1_email: user.email,
-            user_2_email: session.user.email,
+            user_1_email: session.user.email,
+            user_2_email: user.email,
           });
           console.log("conversation", conversation); // Log the resolved conversation object
         } catch (error) {
@@ -44,19 +45,7 @@ const ChatComponent = ({ user }: ChatComponentProps) => {
         />
       </div>
       <div className="mt-10">
-        {/* These are recieved messages */}
-        <ChatBubbleRecieve
-          msg="I'm down! Any ideas eyrjhfguye ue cry uej jrgur thgujrhtdgfrthtey r dfvfgt ftgtyfghbh gbd uyrgdfuye rgfu erg egrdf??"
-          time=""
-        />
-        <ChatBubbleRecieve msg="Hello hello" time="8.41 PM" />
-
-        {/* These are the senders messages */}
-        <ChatBubbleSend
-          msg="Hello hello hello uydrjshgdf ue uerhfn uirjiu erhf ieurkjhiu vui erghjviu rkjghvi uskrhg isurhv"
-          time=""
-        />
-        <ChatBubbleSend msg="Kollo dinna" time="8.41 PM" />
+        <ChatConversation user={user} />
       </div>
     </div>
   );
