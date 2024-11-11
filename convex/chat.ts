@@ -8,7 +8,7 @@ export const createConversation = mutation({
   },
   handler: async (ctx, args) => {
     // Check if a user with the same email already exists
-    const existingUser = await ctx.db
+    const existingConversation = await ctx.db
       .query("chatConversations")
       .filter((q) =>
         q.or(
@@ -24,8 +24,9 @@ export const createConversation = mutation({
       )
       .first();
 
-    if (existingUser) {
-      return { error: "A chat converstion with this user's already exists." };
+    if (existingConversation) {
+      const existingID = existingConversation._id;
+      return existingID;
     }
 
     const conversationID = await ctx.db.insert("chatConversations", {

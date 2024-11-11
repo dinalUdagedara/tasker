@@ -1,13 +1,12 @@
 "use client";
 import ChatHead from "@/ui-components/messages/chat-head";
-import ChatBubbleRecieve from "@/ui-components/messages/chat-bubble-recieve";
-import ChatBubbleSend from "@/ui-components/messages/chat-bubble-send";
 import { User } from "@/lib/types";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import ChatConversation from "./chat-conversation";
+import { Id } from "@/convex/_generated/dataModel";
 
 interface ChatComponentProps {
   user: User;
@@ -15,6 +14,8 @@ interface ChatComponentProps {
 
 const ChatComponent = ({ user }: ChatComponentProps) => {
   const createConversation = useMutation(api.chat.createConversation);
+  const [conversationID, setConversationID] =
+    useState<Id<"chatConversations"> | null>(null);
   const { data: session } = useSession(); // Get session from next-auth
 
   useEffect(() => {
@@ -25,7 +26,7 @@ const ChatComponent = ({ user }: ChatComponentProps) => {
             user_1_email: session.user.email,
             user_2_email: user.email,
           });
-          console.log("conversation", conversation); // Log the resolved conversation object
+          setConversationID(conversation); 
         } catch (error) {
           console.error("Error creating conversation", error);
         }
@@ -45,7 +46,9 @@ const ChatComponent = ({ user }: ChatComponentProps) => {
         />
       </div>
       <div className="mt-10">
-        <ChatConversation user={user} />
+        {conversationID && (
+          <ChatConversation user={user} conversationID={conversationID} />
+        )}
       </div>
     </div>
   );
