@@ -1,4 +1,4 @@
-import Chat from "@/ui-components/messages/chat";
+import Chat from "@/ui-components/messages/user-list";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 
