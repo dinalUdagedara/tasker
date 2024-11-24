@@ -4,7 +4,7 @@ import "./globals.css";
 import SideBar from "../ui-components/sidebar/sidebar";
 import { ThemeProvider } from "@/ui-components/providers/theme-provider";
 import Header from "../ui-components/header/header";
-import { ConvexClientProvider } from "./ConvexClientProvider";
+import { ConvexClientProvider } from "../lib/ConvexClientProvider";
 
 const geistSans = localFont({
   src: "../public/assets/fonts/GeistVF.woff",
@@ -31,13 +31,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <header>
+          {/* <header>
             <Header />
-          </header>
+          </header> */}
           <div className="flex min-h-screen h-full">
-            <SideBar />
+            {/* <SideBar /> */}
             <main className="w-full h-full">
-              {" "}
               <ConvexClientProvider>{children}</ConvexClientProvider>
             </main>
           </div>

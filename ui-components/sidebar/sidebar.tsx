@@ -54,7 +54,7 @@ const SideBar = () => {
               </Button>
             </div>
             <div className="w-full">
-              <Link href={"/chat"}>
+              <Link href={"feat/chat"}>
                 {" "}
                 <Button
                   className="w-full flex justify-start pl-6"
@@ -103,7 +103,7 @@ const SideBar = () => {
           </div>
 
           <div className="flex items-center justify-between w-5/6 bg-muted rounded-md px-2">
-            <Link href={"/mobile-app"}>
+            <Link href={"/feat/mobile-app"}>
               <p className="font-semibold font-sans">Mobile App</p>
             </Link>
             <Button variant={"ghost"}>
